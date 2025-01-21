@@ -9,7 +9,7 @@ import time
 import pathlib
 import pandas as pd
 
-sys.path.append("../../trajectron")
+sys.path.append("/home/t/thanh/UnlikelihoodMotionForecasting/trajectron")
 from tqdm import tqdm
 from model.model_registrar import ModelRegistrar
 from model.trajectron import Trajectron
@@ -18,7 +18,7 @@ import utils
 from scipy.interpolate import RectBivariateSpline
 from tensorboardX import SummaryWriter
 import matplotlib.pyplot as plt
-import trajectron.visualization
+import visualization
 
 seed = 0
 np.random.seed(seed)
