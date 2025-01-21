@@ -251,9 +251,11 @@ def main():
     for epoch in range(1, args.train_epochs + 1):
         model_registrar.to(args.device)
         train_dataset.augment = args.augment
+        print(f"train_data_loader length: {len(train_data_loader)}")
         for node_type, data_loader in train_data_loader.items():
             curr_iter = curr_iter_node_type[node_type]
             pbar = tqdm(data_loader, ncols=100)
+            print(f"pbar length: {len(pbar)}")
             for batch in pbar:
                 trajectron.set_curr_iter(curr_iter)
                 trajectron.step_annealers(node_type)
