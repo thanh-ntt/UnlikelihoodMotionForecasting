@@ -1,7 +1,5 @@
 import sys
 import os
-import time
-import pathlib
 import dill
 import json
 import argparse
@@ -11,12 +9,12 @@ import pandas as pd
 
 sys.path.append("../../trajectron")
 from tqdm import tqdm
-from tensorboardX import SummaryWriter
-from trajectron.model.model_registrar import ModelRegistrar
-from trajectron.model import Trajectron
-from trajectron.evaluation import evaluation
-from trajectron import utils
+from model.model_registrar import ModelRegistrar
+from model.trajectron import Trajectron
+import evaluation
+import utils
 from scipy.interpolate import RectBivariateSpline
+from tensorboardX import SummaryWriter
 import matplotlib.pyplot as plt
 import trajectron.visualization
 
