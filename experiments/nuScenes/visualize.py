@@ -17,6 +17,8 @@ import evaluation
 import utils
 from scipy.interpolate import RectBivariateSpline
 from tensorboardX import SummaryWriter
+import matplotlib.pyplot as plt
+import visualization
 
 seed = 0
 np.random.seed(seed)
@@ -32,6 +34,8 @@ parser.add_argument("--output_path", help="path to output csv file", type=str)
 parser.add_argument("--output_tag", help="name tag for output file", type=str)
 parser.add_argument("--node_type", help="node type to evaluate", type=str, default='VEHICLE')
 parser.add_argument("--prediction_horizon", nargs='+', help="prediction horizon", type=int, default=None)
+parser.add_argument("--log_dir", help="what dir to save training information (i.e., saved models, logs, etc)", type=str)
+parser.add_argument("--log_tag", help="tag for the log folder", type=str)
 args = parser.parse_args()
 
 
@@ -108,10 +112,11 @@ if __name__ == "__main__":
 
             print("-- Evaluating GMM Z Mode (Most Likely)")
             for scene in tqdm(scenes):
-                timesteps = np.arange(scene.timesteps)
+                # timesteps = np.arange(scene.timesteps)
+                timestep = scene.sample_timesteps(1, min_future_timesteps=ph)
 
                 predictions = eval_stg.predict(scene,
-                                               timesteps,
+                                               timestep, # TODO: revert back to timesteps (timestep is for visualization)
                                                ph,
                                                num_samples=1,
                                                min_future_timesteps=8,
@@ -131,6 +136,17 @@ if __name__ == "__main__":
                 eval_ade_batch_errors = np.hstack((eval_ade_batch_errors, batch_error_dict[args.node_type]['ade']))
                 eval_fde_batch_errors = np.hstack((eval_fde_batch_errors, batch_error_dict[args.node_type]['fde']))
 
+                # Plot predicted timestep for current scene
+                fig, ax = plt.subplots(figsize=(10, 10))
+                visualization.visualize_prediction(ax,
+                                                   predictions,
+                                                   scene.dt,
+                                                   max_hl=max_hl,
+                                                   ph=ph,
+                                                   map=scene.map['VISUALIZATION'] if scene.map is not None else None)
+                ax.set_title(f"{scene.name}-t: {timestep}")
+                log_writer.add_figure('eval/prediction', fig)
+
             print('ade {}'.format(np.mean(eval_ade_batch_errors)))
             print('fde {}'.format(np.mean(eval_fde_batch_errors)))
 
@@ -143,9 +159,11 @@ if __name__ == "__main__":
             check_result_total = []
             print("-- Evaluating Full")
             for scene in tqdm(scenes):
-                timesteps = np.arange(scene.timesteps)
+                # timesteps = np.arange(scene.timesteps)
+                timestep = scene.sample_timesteps(1, min_future_timesteps=ph)
+
                 predictions, check_result = eval_stg.predict(scene,
-                                                             timesteps,
+                                                             timestep, # TODO: revert back to timesteps (timestep is for visualization)
                                                              ph,
                                                              num_samples=num_sample,
                                                              min_future_timesteps=8,
@@ -190,6 +208,16 @@ if __name__ == "__main__":
                 eval_fde_batch_errors = np.hstack((eval_fde_batch_errors, batch_error_dict[args.node_type]['fde']))
                 eval_kde_nll = np.hstack((eval_kde_nll, batch_error_dict[args.node_type]['kde']))
 
+                # Plot predicted timestep for current scene
+                fig, ax = plt.subplots(figsize=(10, 10))
+                visualization.visualize_prediction(ax,
+                                                   predictions,
+                                                   scene.dt,
+                                                   max_hl=max_hl,
+                                                   ph=ph,
+                                                   map=scene.map['VISUALIZATION'] if scene.map is not None else None)
+                ax.set_title(f"{scene.name}-t: {timestep}")
+                log_writer.add_figure('eval/prediction', fig)
         check_result_total = np.concatenate(check_result_total, axis=1)
         print('violation rate {}'.format(check_result_total.sum() / check_result_total.size))
         print('RB vio {}'.format(eval_road_viols.sum() / (eval_road_viols.size * num_sample)))
