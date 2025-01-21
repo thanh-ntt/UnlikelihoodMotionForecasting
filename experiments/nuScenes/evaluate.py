@@ -5,6 +5,8 @@ import json
 import argparse
 import torch
 import numpy as np
+import time
+import pathlib
 import pandas as pd
 
 sys.path.append("../../trajectron")
@@ -32,6 +34,8 @@ parser.add_argument("--output_path", help="path to output csv file", type=str)
 parser.add_argument("--output_tag", help="name tag for output file", type=str)
 parser.add_argument("--node_type", help="node type to evaluate", type=str, default='VEHICLE')
 parser.add_argument("--prediction_horizon", nargs='+', help="prediction horizon", type=int, default=None)
+parser.add_argument("--log_dir", help="what dir to save training information (i.e., saved models, logs, etc)", type=str)
+parser.add_argument("--log_tag", help="tag for the log folder", type=str)
 args = parser.parse_args()
 
 
@@ -131,6 +135,17 @@ if __name__ == "__main__":
                 eval_ade_batch_errors = np.hstack((eval_ade_batch_errors, batch_error_dict[args.node_type]['ade']))
                 eval_fde_batch_errors = np.hstack((eval_fde_batch_errors, batch_error_dict[args.node_type]['fde']))
 
+                # Plot predicted timestep for current scene
+                fig, ax = plt.subplots(figsize=(10, 10))
+                visualization.visualize_prediction(ax,
+                                                   predictions,
+                                                   scene.dt,
+                                                   max_hl=max_hl,
+                                                   ph=ph,
+                                                   map=scene.map['VISUALIZATION'] if scene.map is not None else None)
+                ax.set_title(f"{scene.name}-t: {timesteps}")
+                log_writer.add_figure('eval/prediction', fig)
+
             print('ade {}'.format(np.mean(eval_ade_batch_errors)))
             print('fde {}'.format(np.mean(eval_fde_batch_errors)))
 
@@ -192,7 +207,7 @@ if __name__ == "__main__":
 
                 # Plot predicted timestep for current scene
                 fig, ax = plt.subplots(figsize=(10, 10))
-                trajectron.visualization.visualize_prediction(ax,
+                visualization.visualize_prediction(ax,
                                                    predictions,
                                                    scene.dt,
                                                    max_hl=max_hl,
