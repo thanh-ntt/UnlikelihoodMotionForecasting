@@ -149,6 +149,7 @@ class Trajectron(object):
                 check_checker=False):
 
         predictions_dict = {}
+        check_result = None
         for node_type in self.env.NodeType:
             if node_type not in self.pred_state:
                 continue

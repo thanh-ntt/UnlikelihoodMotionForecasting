@@ -111,7 +111,7 @@ if __name__ == "__main__":
             eval_fde_batch_errors = np.array([])
 
             print("-- Evaluating GMM Z Mode (Most Likely)")
-            for scene in tqdm(scenes):
+            for i, scene in enumerate(tqdm(scenes)):
                 # timesteps = np.arange(scene.timesteps)
                 timestep = scene.sample_timesteps(1, min_future_timesteps=ph)
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
                                                    ph=ph,
                                                    map=scene.map['VISUALIZATION'] if scene.map is not None else None)
                 ax.set_title(f"{scene.name}-t: {timestep}")
-                log_writer.add_figure('eval/prediction', fig)
+                log_writer.add_figure('eval/prediction_most_likely', fig, i)
 
             print('ade {}'.format(np.mean(eval_ade_batch_errors)))
             print('fde {}'.format(np.mean(eval_fde_batch_errors)))
@@ -158,7 +158,7 @@ if __name__ == "__main__":
             eval_road_viols = np.array([])
             check_result_total = []
             print("-- Evaluating Full")
-            for scene in tqdm(scenes):
+            for i, scene in enumerate(tqdm(scenes)):
                 # timesteps = np.arange(scene.timesteps)
                 timestep = scene.sample_timesteps(1, min_future_timesteps=ph)
 
@@ -217,7 +217,7 @@ if __name__ == "__main__":
                                                    ph=ph,
                                                    map=scene.map['VISUALIZATION'] if scene.map is not None else None)
                 ax.set_title(f"{scene.name}-t: {timestep}")
-                log_writer.add_figure('eval/prediction', fig)
+                log_writer.add_figure('eval/prediction_full', fig, i)
         check_result_total = np.concatenate(check_result_total, axis=1)
         print('violation rate {}'.format(check_result_total.sum() / check_result_total.size))
         print('RB vio {}'.format(eval_road_viols.sum() / (eval_road_viols.size * num_sample)))
