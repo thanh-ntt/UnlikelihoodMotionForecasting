@@ -1,5 +1,7 @@
 import sys
 import os
+import time
+import pathlib
 import dill
 import json
 import argparse
@@ -9,11 +11,14 @@ import pandas as pd
 
 sys.path.append("../../trajectron")
 from tqdm import tqdm
+from tensorboardX import SummaryWriter
 from model.model_registrar import ModelRegistrar
 from model.trajectron import Trajectron
 import evaluation
 import utils
 from scipy.interpolate import RectBivariateSpline
+import matplotlib.pyplot as plt
+import trajectron.visualization
 
 seed = 0
 np.random.seed(seed)
@@ -83,6 +88,16 @@ if __name__ == "__main__":
         scene.calculate_scene_graph(env.attention_radius,
                                     hyperparams['edge_addition_filter'],
                                     hyperparams['edge_removal_filter'])
+
+    # Create the log and model directory if they're not present.
+    random_id = str(np.random.randint(999)).zfill(
+        3)  # avoid the same path when run multiple experiment at the same time
+    model_dir = os.path.join(args.log_dir, '_'.join([args.log_tag,
+                                                     time.strftime('%d_%b_%Y_%H_%M_%S', time.localtime()),
+                                                     random_id]))
+
+    pathlib.Path(model_dir).mkdir(parents=True, exist_ok=True)
+    log_writer = SummaryWriter(log_dir=model_dir)
 
     for ph in args.prediction_horizon:
         print(f"Prediction Horizon: {ph}")
@@ -177,6 +192,16 @@ if __name__ == "__main__":
                 eval_fde_batch_errors = np.hstack((eval_fde_batch_errors, batch_error_dict[args.node_type]['fde']))
                 eval_kde_nll = np.hstack((eval_kde_nll, batch_error_dict[args.node_type]['kde']))
 
+                # Plot predicted timestep for current scene
+                fig, ax = plt.subplots(figsize=(10, 10))
+                trajectron.visualization.visualize_prediction(ax,
+                                                   predictions,
+                                                   scene.dt,
+                                                   max_hl=max_hl,
+                                                   ph=ph,
+                                                   map=scene.map['VISUALIZATION'] if scene.map is not None else None)
+                ax.set_title(f"{scene.name}-t: {timesteps}")
+                log_writer.add_figure('eval/prediction', fig)
         check_result_total = np.concatenate(check_result_total, axis=1)
         print('violation rate {}'.format(check_result_total.sum() / check_result_total.size))
         print('RB vio {}'.format(eval_road_viols.sum() / (eval_road_viols.size * num_sample)))
