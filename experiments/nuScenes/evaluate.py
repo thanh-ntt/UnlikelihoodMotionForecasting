@@ -12,10 +12,10 @@ import pandas as pd
 sys.path.append("../../trajectron")
 from tqdm import tqdm
 from tensorboardX import SummaryWriter
-from model.model_registrar import ModelRegistrar
-from model.trajectron import Trajectron
-import evaluation
-import utils
+from trajectron.model.model_registrar import ModelRegistrar
+from trajectron.model import Trajectron
+from trajectron.evaluation import evaluation
+from trajectron import utils
 from scipy.interpolate import RectBivariateSpline
 import matplotlib.pyplot as plt
 import trajectron.visualization
