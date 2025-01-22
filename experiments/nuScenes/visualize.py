@@ -113,10 +113,11 @@ if __name__ == "__main__":
             print("-- Evaluating GMM Z Mode (Most Likely)")
             for i, scene in enumerate(tqdm(scenes)):
                 # timesteps = np.arange(scene.timesteps)
-                timestep = scene.sample_timesteps(1, min_future_timesteps=ph)
+                # timesteps = scene.sample_timesteps(1, min_future_timesteps=ph)
+                timesteps = np.array([0])  # TODO: revert back
 
                 predictions = eval_stg.predict(scene,
-                                               timestep, # TODO: revert back to timesteps (timestep is for visualization)
+                                               timesteps,
                                                ph,
                                                num_samples=1,
                                                min_future_timesteps=8,
@@ -144,7 +145,7 @@ if __name__ == "__main__":
                                                    max_hl=max_hl,
                                                    ph=ph,
                                                    map=scene.map['VISUALIZATION'] if scene.map is not None else None)
-                ax.set_title(f"{scene.name}-t: {timestep}")
+                ax.set_title(f"{scene.name}-t: {timesteps[0]}")
                 log_writer.add_figure('eval/prediction_most_likely', fig, i)
 
             print('ade {}'.format(np.mean(eval_ade_batch_errors)))
@@ -160,10 +161,11 @@ if __name__ == "__main__":
             print("-- Evaluating Full")
             for i, scene in enumerate(tqdm(scenes)):
                 # timesteps = np.arange(scene.timesteps)
-                timestep = scene.sample_timesteps(1, min_future_timesteps=ph)
+                # timesteps = scene.sample_timesteps(1, min_future_timesteps=ph)
+                timesteps = np.array([0]) # TODO: revert back
 
                 predictions, check_result = eval_stg.predict(scene,
-                                                             timestep, # TODO: revert back to timesteps (timestep is for visualization)
+                                                             timesteps,
                                                              ph,
                                                              num_samples=num_sample,
                                                              min_future_timesteps=8,
@@ -216,7 +218,7 @@ if __name__ == "__main__":
                                                    max_hl=max_hl,
                                                    ph=ph,
                                                    map=scene.map['VISUALIZATION'] if scene.map is not None else None)
-                ax.set_title(f"{scene.name}-t: {timestep}")
+                ax.set_title(f"{scene.name}-t: {timesteps[0]}")
                 log_writer.add_figure('eval/prediction_full', fig, i)
         check_result_total = np.concatenate(check_result_total, axis=1)
         print('violation rate {}'.format(check_result_total.sum() / check_result_total.size))
