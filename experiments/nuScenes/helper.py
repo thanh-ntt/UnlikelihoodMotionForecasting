@@ -1,4 +1,4 @@
-import os
+import os, sys
 import json
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,6 +14,7 @@ from utils import prediction_output_to_trajectories
 import torch
 
 from scipy.integrate import cumtrapz
+sys.path.append(os.getcwd() + "/experiments/nuScenes")
 
 line_colors = ['#375397', '#F05F78', '#80CBE5', '#ABCB51', '#C8B0B0']#[::-1]
 
