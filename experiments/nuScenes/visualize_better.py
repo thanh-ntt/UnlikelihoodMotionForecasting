@@ -9,8 +9,8 @@ import time
 import pathlib
 import pandas as pd
 
-from experiments.nuScenes.helper import plot_vehicle_nice, plot_vehicle_mm
-from experiments.nuScenes.plot_things import nusc_map
+from helper import plot_vehicle_nice, plot_vehicle_mm
+from plot_things import nusc_map
 
 sys.path.append("/home/t/thanh/UnlikelihoodMotionForecasting/trajectron")
 from tqdm import tqdm
