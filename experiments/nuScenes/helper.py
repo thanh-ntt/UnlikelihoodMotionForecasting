@@ -1,4 +1,4 @@
-import os, sys
+import os
 import json
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,15 +14,14 @@ from utils import prediction_output_to_trajectories
 import torch
 
 from scipy.integrate import cumtrapz
-sys.path.append(os.getcwd() + "/experiments/nuScenes")
 
 line_colors = ['#375397', '#F05F78', '#80CBE5', '#ABCB51', '#C8B0B0']#[::-1]
 
-cars = [plt.imread('icons/Car TOP_VIEW 375397.png'),
-        plt.imread('icons/Car TOP_VIEW F05F78.png'),
-        plt.imread('icons/Car TOP_VIEW 80CBE5.png'),
-        plt.imread('icons/Car TOP_VIEW ABCB51.png'),
-        plt.imread('icons/Car TOP_VIEW C8B0B0.png')]#[::-1]
+cars = [plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW 375397.png'),
+        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW F05F78.png'),
+        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW 80CBE5.png'),
+        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW ABCB51.png'),
+        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW C8B0B0.png')]#[::-1]
 
 robot = plt.imread('icons/Car TOP_VIEW ROBOT.png')
 
