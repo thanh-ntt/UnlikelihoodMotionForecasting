@@ -9,7 +9,7 @@ import time
 import pathlib
 import pandas as pd
 
-sys.path.append("/Users/thanh/Documents/code/UnlikelihoodMotionForecasting/trajectron")
+sys.path.append("/home/t/thanh/UnlikelihoodMotionForecasting/trajectron")
 from tqdm import tqdm
 from model.model_registrar import ModelRegistrar
 from model.trajectron import Trajectron
@@ -114,7 +114,7 @@ if __name__ == "__main__":
             for i, scene in enumerate(tqdm(scenes)):
                 # timesteps = np.arange(scene.timesteps)
                 # timesteps = scene.sample_timesteps(1, min_future_timesteps=ph)
-                timesteps = np.array([10])  # TODO: revert back
+                timesteps = np.array([0])  # TODO: revert back
 
                 predictions = eval_stg.predict(scene,
                                                timesteps,
@@ -162,7 +162,7 @@ if __name__ == "__main__":
             for i, scene in enumerate(tqdm(scenes)):
                 # timesteps = np.arange(scene.timesteps)
                 # timesteps = scene.sample_timesteps(1, min_future_timesteps=ph)
-                timesteps = np.array([10]) # TODO: reveree back
+                timesteps = np.array([0]) # TODO: revert back
 
                 predictions, check_result = eval_stg.predict(scene,
                                                              timesteps,
