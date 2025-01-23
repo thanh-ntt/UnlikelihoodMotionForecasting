@@ -117,8 +117,9 @@ if __name__ == "__main__":
                           'stop_line',
                           'road_divider',
                           'lane_divider']
-                fig, ax = nusc_map.render_map_patch(my_patch, layers, figsize=(10, 10), alpha=0.1,
-                                                    render_egoposes_range=False)
+                # fig, ax = nusc_map.render_map_patch(my_patch, layers, figsize=(10, 10), alpha=0.1,
+                #                                     render_egoposes_range=False)
+                fig, ax = plt.subplots(figsize=(10, 10))
                 ax.plot([],
                         [],
                         'w--o', label='Ground Truth',
