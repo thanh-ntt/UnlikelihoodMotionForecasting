@@ -1,4 +1,4 @@
-import os
+import os, sys
 import json
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,6 +7,7 @@ import matplotlib.patheffects as pe
 from scipy.ndimage import rotate
 import seaborn as sns
 
+sys.path.append(os.getcwd() + "/trajectron")
 from evaluation.evaluation import compute_kde_nll, compute_ade, compute_fde, compute_obs_violations, compute_batch_statistics
 from model.model_registrar import ModelRegistrar
 from model import Trajectron
