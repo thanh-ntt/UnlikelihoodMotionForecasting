@@ -1,3 +1,4 @@
+from experiments.nuScenes.helper import plot_vehicle_nice, plot_vehicle_mm
 from utils import prediction_output_to_trajectories
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as pe
@@ -6,6 +7,9 @@ import seaborn as sns
 
 
 def plot_trajectories(ax,
+                      dt,
+                      max_hl,
+                      ph,
                       prediction_dict,
                       histories_dict,
                       futures_dict,
@@ -47,6 +51,20 @@ def plot_trajectories(ax,
                     'w--',
                     path_effects=[pe.Stroke(linewidth=edge_width, foreground='k'), pe.Normal()])
 
+            plot_vehicle_nice(ax,
+                              predictions,
+                              dt,
+                              max_hl=max_hl,
+                              ph=ph,
+                              map=None)
+
+            plot_vehicle_mm(ax,
+                            predictions_mm,
+                            scene.dt,
+                            max_hl=10,
+                            ph=ph,
+                            map=None, x_min=x_min, y_min=y_min)
+
             # Current Node Position
             circle = plt.Circle((history[-1, 0],
                                  history[-1, 1]),
@@ -86,4 +104,4 @@ def visualize_prediction(ax,
 
     if map is not None:
         ax.imshow(map.as_image(), origin='lower', alpha=0.5)
-    plot_trajectories(ax, prediction_dict, histories_dict, futures_dict, *kwargs)
+    plot_trajectories(ax, dt, max_hl, ph, prediction_dict, histories_dict, futures_dict, *kwargs)
