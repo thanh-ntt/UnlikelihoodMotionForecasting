@@ -17,11 +17,11 @@ from scipy.integrate import cumtrapz
 
 line_colors = ['#375397', '#F05F78', '#80CBE5', '#ABCB51', '#C8B0B0']#[::-1]
 
-cars = [plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW 375397.png'),
-        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW F05F78.png'),
-        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW 80CBE5.png'),
-        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW ABCB51.png'),
-        plt.imread('/experiments/nuScenes/icons/Car TOP_VIEW C8B0B0.png')]#[::-1]
+cars = [plt.imread('experiments/nuScenes/icons/Car TOP_VIEW 375397.png'),
+        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW F05F78.png'),
+        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW 80CBE5.png'),
+        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW ABCB51.png'),
+        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW C8B0B0.png')]#[::-1]
 
 robot = plt.imread('icons/Car TOP_VIEW ROBOT.png')
 
