@@ -12,8 +12,7 @@ import pandas as pd
 from experiments.nuScenes.helper import plot_vehicle_nice, plot_vehicle_mm
 from experiments.nuScenes.plot_things import nusc_map
 
-sys.path.append("/Users/thanh/Documents/code/UnlikelihoodMotionForecasting/trajectron")
-# sys.path.append("/home/t/thanh/UnlikelihoodMotionForecasting/trajectron")
+sys.path.append("/home/t/thanh/UnlikelihoodMotionForecasting/trajectron")
 from tqdm import tqdm
 from model.model_registrar import ModelRegistrar
 from model.trajectron import Trajectron
