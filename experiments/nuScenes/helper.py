@@ -24,7 +24,7 @@ cars = [plt.imread('experiments/nuScenes/icons/Car TOP_VIEW 375397.png'),
         plt.imread('experiments/nuScenes/icons/Car TOP_VIEW ABCB51.png'),
         plt.imread('experiments/nuScenes/icons/Car TOP_VIEW C8B0B0.png')]#[::-1]
 
-robot = plt.imread('icons/Car TOP_VIEW ROBOT.png')
+robot = plt.imread('experiments/nuScenes/icons/Car TOP_VIEW ROBOT.png')
 
 
 def load_model(model_dir, env, ts=3999):
