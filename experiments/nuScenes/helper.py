@@ -8,7 +8,7 @@ from scipy.ndimage import rotate
 import seaborn as sns
 
 sys.path.append(os.getcwd() + "/trajectron")
-from evaluation.evaluation import compute_kde_nll, compute_ade, compute_fde, compute_obs_violations, compute_batch_statistics
+import evaluation
 from model.model_registrar import ModelRegistrar
 from model import Trajectron
 from utils import prediction_output_to_trajectories
@@ -427,7 +427,7 @@ def plot_topz(model, scene, ph, save_name, top_z=5, save_path='img'):
         #                                   gmm_mode=True)
 
         # Plot predicted timestep for random scene in map
-        error_dict = compute_batch_statistics(predictions, scene.dt, max_hl=10, ph=ph, node_type_enum=['VEHICLE'],
+        error_dict = evaluation.compute_batch_statistics(predictions, scene.dt, max_hl=10, ph=ph, node_type_enum=['VEHICLE'],
                                               prune_ph_to_future=True)
 
         fig, ax = plt.subplots()
@@ -470,7 +470,7 @@ def plot_topz_kde(model, scene, ph, save_name, top_z=5, save_path='img'):
 
             predictions_z = {2: {node: predictions[2][node][..., z]}}
 
-            error_dict = compute_batch_statistics(predictions_z, scene.dt, max_hl=10, ph=ph, node_type_enum=['VEHICLE'],
+            error_dict = evaluation.compute_batch_statistics(predictions_z, scene.dt, max_hl=10, ph=ph, node_type_enum=['VEHICLE'],
                                                   prune_ph_to_future=True)
 
             fig, ax = plt.subplots()
@@ -512,7 +512,7 @@ def plot_kde(model, scene, ph, save_name, save_path='img'):
         #         break
         # predictions = {2: {node: predictions[2][node]}}
 
-        error_dict = compute_batch_statistics(predictions, scene.dt, max_hl=10, ph=ph, node_type_enum=['VEHICLE'], prune_ph_to_future=True)
+        error_dict = evaluation.compute_batch_statistics(predictions, scene.dt, max_hl=10, ph=ph, node_type_enum=['VEHICLE'], prune_ph_to_future=True)
 
         fig, ax = plt.subplots()
 

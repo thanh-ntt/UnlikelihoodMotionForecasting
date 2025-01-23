@@ -10,7 +10,6 @@ import pathlib
 import pandas as pd
 
 from helper import plot_vehicle_nice, plot_vehicle_mm
-from plot_things import nusc_map
 
 sys.path.append(os.getcwd() + "/trajectron")
 from tqdm import tqdm
