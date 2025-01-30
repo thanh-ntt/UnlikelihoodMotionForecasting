@@ -1,5 +1,4 @@
 import numpy as np
-import cupy as cp
 import matplotlib.pyplot as plt
 
 from shapely import affinity
@@ -35,18 +34,18 @@ def get_dir_mask(cline_m, cline_dir, mask):
         x_size = x.max() - x.min() + 1
         y_size = y.max() - y.min() + 1
 
-    with cp.cuda.Device(0):
-        cline_m, cline_dir, mask = cp.asarray(cline_m), cp.asarray(cline_dir), cp.asarray(mask),
-        cline_m = cline_m - cp.asarray([y.min(), x.min()])
-        mesh = [dim[..., None] for dim in cp.meshgrid(*[cp.asarray(range(dim)) for dim in [x_size, y_size]][::-1])]
-        rel_pos = cp.stack([mesh[0] - cline_m[:, 0], mesh[1] - cline_m[:, 1]], axis=-1)
-        distance = cp.linalg.norm(rel_pos, axis=-1)
-        grid_label = cp.argmin(distance, axis=-1)[..., None]
-        dir_mask_patch = (grid_label == cp.arange(len(cline_m)))[..., None] * cline_dir
-        dir_mask_patch = cp.sum(dir_mask_patch, axis=-2) * mask[x.min():x.max()+1, y.min():y.max()+1, None]
-        dir_mask = cp.zeros([*mask.shape, 2])
+    with np.cuda.Device(0):
+        cline_m, cline_dir, mask = np.asarray(cline_m), np.asarray(cline_dir), np.asarray(mask),
+        cline_m = cline_m - np.asarray([y.min(), x.min()])
+        mesh = [dim[..., None] for dim in np.meshgrid(*[np.asarray(range(dim)) for dim in [x_size, y_size]][::-1])]
+        rel_pos = np.stack([mesh[0] - cline_m[:, 0], mesh[1] - cline_m[:, 1]], axis=-1)
+        distance = np.linalg.norm(rel_pos, axis=-1)
+        grid_label = np.argmin(distance, axis=-1)[..., None]
+        dir_mask_patch = (grid_label == np.arange(len(cline_m)))[..., None] * cline_dir
+        dir_mask_patch = np.sum(dir_mask_patch, axis=-2) * mask[x.min():x.max()+1, y.min():y.max()+1, None]
+        dir_mask = np.zeros([*mask.shape, 2])
         dir_mask[x.min():x.max()+1, y.min():y.max()+1] = dir_mask_patch
-        dir_mask_out = cp.asnumpy(dir_mask)
+        dir_mask_out = np.asnumpy(dir_mask)
 
     return dir_mask_out
 
