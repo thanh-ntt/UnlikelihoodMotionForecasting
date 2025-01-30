@@ -1,5 +1,8 @@
 import sys
 import os
+root_dir = os.path.abspath(os.path.join(os.getcwd(), '../..'))
+sys.path.append(root_dir)
+sys.path.append(root_dir + "/trajectron")
 import math
 import numpy as np
 import pandas as pd
@@ -12,7 +15,6 @@ from lane_direction import get_direction_mask
 from sklearn.model_selection import train_test_split
 from multiprocessing import Pool
 
-sys.path.append("../../trajectron")
 from nuscenes.nuscenes import NuScenes
 from nuscenes.map_expansion.map_api import NuScenesMap
 from nuscenes.utils.splits import create_splits_scenes
