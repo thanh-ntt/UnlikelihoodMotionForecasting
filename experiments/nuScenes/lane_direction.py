@@ -34,18 +34,17 @@ def get_dir_mask(cline_m, cline_dir, mask):
         x_size = x.max() - x.min() + 1
         y_size = y.max() - y.min() + 1
 
-    with np.cuda.Device(0):
-        cline_m, cline_dir, mask = np.asarray(cline_m), np.asarray(cline_dir), np.asarray(mask),
-        cline_m = cline_m - np.asarray([y.min(), x.min()])
-        mesh = [dim[..., None] for dim in np.meshgrid(*[np.asarray(range(dim)) for dim in [x_size, y_size]][::-1])]
-        rel_pos = np.stack([mesh[0] - cline_m[:, 0], mesh[1] - cline_m[:, 1]], axis=-1)
-        distance = np.linalg.norm(rel_pos, axis=-1)
-        grid_label = np.argmin(distance, axis=-1)[..., None]
-        dir_mask_patch = (grid_label == np.arange(len(cline_m)))[..., None] * cline_dir
-        dir_mask_patch = np.sum(dir_mask_patch, axis=-2) * mask[x.min():x.max()+1, y.min():y.max()+1, None]
-        dir_mask = np.zeros([*mask.shape, 2])
-        dir_mask[x.min():x.max()+1, y.min():y.max()+1] = dir_mask_patch
-        dir_mask_out = np.asnumpy(dir_mask)
+    cline_m, cline_dir, mask = np.asarray(cline_m), np.asarray(cline_dir), np.asarray(mask),
+    cline_m = cline_m - np.asarray([y.min(), x.min()])
+    mesh = [dim[..., None] for dim in np.meshgrid(*[np.asarray(range(dim)) for dim in [x_size, y_size]][::-1])]
+    rel_pos = np.stack([mesh[0] - cline_m[:, 0], mesh[1] - cline_m[:, 1]], axis=-1)
+    distance = np.linalg.norm(rel_pos, axis=-1)
+    grid_label = np.argmin(distance, axis=-1)[..., None]
+    dir_mask_patch = (grid_label == np.arange(len(cline_m)))[..., None] * cline_dir
+    dir_mask_patch = np.sum(dir_mask_patch, axis=-2) * mask[x.min():x.max()+1, y.min():y.max()+1, None]
+    dir_mask = np.zeros([*mask.shape, 2])
+    dir_mask[x.min():x.max()+1, y.min():y.max()+1] = dir_mask_patch
+    dir_mask_out = dir_mask
 
     return dir_mask_out
 
