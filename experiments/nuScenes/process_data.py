@@ -284,7 +284,7 @@ def process_scene(ns_scene, env, nusc, data_path):
     data['x'] = data['x'] - x_min  # change the coordinate system
     data['y'] = data['y'] - y_min
 
-    scene = Scene(timesteps=max_timesteps + 1, dt=dt, name=str(scene_id), aug_func=augment)
+    scene = Scene(timesteps=max_timesteps + 1, dt=dt, name=str(scene_id), aug_func=augment, x_min=x_min, x_max=x_max, y_min=y_min, y_max=y_max)
 
     # Generate Maps
     map_name = nusc.get('log', ns_scene['log_token'])['location']

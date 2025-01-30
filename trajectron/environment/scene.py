@@ -5,11 +5,16 @@ from .node import MultiNode
 
 
 class Scene(object):
-    def __init__(self, timesteps, map=None, dt=1, name="", frequency_multiplier=1, aug_func=None,  non_aug_scene=None):
+    def __init__(self, timesteps, map=None, dt=1, name="", frequency_multiplier=1, aug_func=None,  non_aug_scene=None,
+                 x_min=None, x_max=None, y_min=None, y_max=None):
         self.map = map
         self.timesteps = timesteps
         self.dt = dt
         self.name = name
+        self.x_min = x_min  # Used to get predictions back into global coordinates.
+        self.x_max = x_max  # Used to get predictions back into global coordinates.
+        self.y_min = y_min  # Used to get predictions back into global coordinates.
+        self.y_max = y_max  # Used to get predictions back into global coordinates.
 
         self.nodes = []
 
