@@ -1,8 +1,6 @@
 import sys
 import os
-root_dir = os.path.abspath(os.path.join(os.getcwd(), '../..'))
-sys.path.append(root_dir)
-sys.path.append(root_dir + "/trajectron")
+sys.path.append("/home/t/thanh/UnlikelihoodMotionForecasting/trajectron")
 import math
 import numpy as np
 import pandas as pd
