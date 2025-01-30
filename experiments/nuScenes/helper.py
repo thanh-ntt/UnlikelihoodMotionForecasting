@@ -7,9 +7,8 @@ import matplotlib.patheffects as pe
 from scipy.ndimage import rotate
 import seaborn as sns
 
-sys.path.append(os.getcwd() + "/trajectron")
-import evaluation
 from model.model_registrar import ModelRegistrar
+from evaluation import *
 from model import Trajectron
 from utils import prediction_output_to_trajectories
 import torch
@@ -18,13 +17,13 @@ from scipy.integrate import cumtrapz
 
 line_colors = ['#375397', '#F05F78', '#80CBE5', '#ABCB51', '#C8B0B0']#[::-1]
 
-cars = [plt.imread('experiments/nuScenes/icons/Car TOP_VIEW 375397.png'),
-        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW F05F78.png'),
-        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW 80CBE5.png'),
-        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW ABCB51.png'),
-        plt.imread('experiments/nuScenes/icons/Car TOP_VIEW C8B0B0.png')]#[::-1]
+cars = [plt.imread('icons/Car TOP_VIEW 375397.png'),
+        plt.imread('icons/Car TOP_VIEW F05F78.png'),
+        plt.imread('icons/Car TOP_VIEW 80CBE5.png'),
+        plt.imread('icons/Car TOP_VIEW ABCB51.png'),
+        plt.imread('icons/Car TOP_VIEW C8B0B0.png')]#[::-1]
 
-robot = plt.imread('experiments/nuScenes/icons/Car TOP_VIEW ROBOT.png')
+robot = plt.imread('icons/Car TOP_VIEW ROBOT.png')
 
 
 def load_model(model_dir, env, ts=3999):
