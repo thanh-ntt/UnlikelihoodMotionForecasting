@@ -170,7 +170,7 @@ def plot_vehicle_bravo(ax, predictions, dt, max_hl=10, ph=6, map=None, x_min=0, 
             h = np.arctan2(vel[0, 1], vel[0, 0])
             r_img = rotate(cars[i % len(cars)], node.get(np.array([ts_key]), {'heading': ['°']})[0, 0] * 180 / np.pi,
                            reshape=True)
-            oi = OffsetImage(r_img, zoom=0.002, zorder=700)
+            oi = OffsetImage(r_img, zoom=0.002, zorder=700, alpha=0.7)
             veh_box = AnnotationBbox(oi, (history[-1, 0], history[-1, 1]), frameon=False)
             veh_box.zorder = 700
             ax.add_artist(veh_box)
